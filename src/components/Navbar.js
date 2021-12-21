@@ -3,22 +3,27 @@ import { useState } from 'react';
 const Navbar = ({ onSearchChange }) => {
 
     const [input, setInput] = useState('');
-    const getSearch = ({ target }) => {
-        setInput(target.value);
-        console.log(input)
-        if (input.length > 3) {
-            onSearchChange(input);
-        }
+    const getSearch = (e) => {
+        setInput(e.target.value);
+    }
+
+    const getCol = () => {
+        onSearchChange(input.trim());
+    }
+
+    const resetSearch = () => {
+        setInput('');
+        onSearchChange('');
     }
 
     return (
         <nav className="navbar navbar-light bg-light">
             <div className="container-fluid">
-                <a className="navbar-brand">Movies</a>
-                <form className="d-flex">
+                <a href="/movies" className="navbar-brand">Movies</a>
+                <form onSubmit={(e) => e.preventDefault()} className="d-flex">
                     <input className="form-control me-2" value={input} onChange={getSearch} type="search" placeholder="Search" aria-label="Search" />
-                    <button className="btn btn-outline-success mx-2" type="button">Search</button>
-                    <button className="btn btn-outline-info" type="reset">Reset</button>
+                    <button className="btn btn-outline-success mx-2" onClick={getCol} type="button">Search</button>
+                    <button className="btn btn-outline-info" onClick={resetSearch} type="reset">Reset</button>
                 </form>
             </div>
         </nav>
