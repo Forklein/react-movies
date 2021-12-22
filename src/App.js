@@ -2,13 +2,14 @@ import './App.css';
 
 import Navbar from './components/Navbar';
 import MovieList from './components/MovieList';
+import Modal from './components/Modal';
 
-
+import 'bootstrap';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-const APIKEY = '114c9f37';
-const BASEURI = 'http://www.omdbapi.com/';
+const APIKEY = process.env.REACT_APP_API_KEY;
+const BASEURI = process.env.REACT_APP_BASEURI;
 
 
 
@@ -27,6 +28,13 @@ function App() {
     }
   }
 
+  const [moviesInfo, setMoviesInfo] = useState([]);
+
+  const getMoviesById = async (id) => {
+    const moviesId = await axios.get(`${BASEURI}/?i=${id}&apikey=${APIKEY}`);
+    setMoviesInfo(moviesId.data);
+  }
+
   useEffect(() => {
     getMovies();
   }, []);
@@ -39,7 +47,8 @@ function App() {
         <Navbar onSearchChange={getMovies} />
       </header>
       <main className="mt-3">
-        <MovieList movies={movies} />
+        <MovieList movies={movies} selectedMovie={getMoviesById} />
+        <Modal movie={moviesInfo} />
       </main>
     </div>
 
