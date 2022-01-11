@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import MovieList from './components/MovieList';
 import Modal from './components/Modal';
 
-import 'bootstrap';
+
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
